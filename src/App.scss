@@ -1,0 +1,11 @@
+.card-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  background-image: url("../public/bg-white.png");
+  background-size: contain;
+  background-repeat: repeat-y;
+  background-position: center;
+}
