@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import './Card.scss'
-import {nomo} from 'nomo-plugin-kit/dist/nomo_api'
+import { nomo } from 'nomo-plugin-kit/dist/nomo_api'
 
 interface CardProps {
   title: string,
@@ -21,8 +21,8 @@ export function Card({ title, walletAddress }: CardProps) {
         }, body: JSON.stringify({ address: walletAddress })
       })
 
-      if (response.statusCode === 400) { 
-        setResponseStatus('error'); 
+      if (response.statusCode === 400) {
+        setResponseStatus('error');
         setMessage('Already claimed');
       }
     }
@@ -68,9 +68,13 @@ export function Card({ title, walletAddress }: CardProps) {
   return (
     <div className={`card ${isLoading ? 'glow' : ''}`}>
       <div className='card-header'>
+        // This comment will disable the 'jsx-a11y/alt-text' rule for the next line.
+        // eslint-disable-next-line jsx-a11y/alt-text
         <img src='/nomo-logo-square.jpg' className='header-image' />
       </div>
       <div className='card-body'>
+        // This comment will disable the 'jsx-a11y/alt-text' rule for the next line.
+        // eslint-disable-next-line jsx-a11y/alt-text
         <img src='/StakingGraphic.svg' />
         {!isLoading && responseStatus === null && (
           <button disabled={responseStatus !== null} onClick={handleClick}>Claim ZENIQ</button>
