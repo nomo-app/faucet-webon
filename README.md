@@ -1,4 +1,4 @@
-# DO NOT USE THIS CODE!
+# DO NOT FORK THIS CODE!
 
 Create React App is outdated since years, and it is not maintained anymore.
 Nomo WebOns should not use frameworks that are legacy on day one of development.
