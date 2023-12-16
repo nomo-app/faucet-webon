@@ -2,7 +2,7 @@
 
 Create React App is outdated since years, and it is not maintained anymore.
 Nomo WebOns should not use frameworks that are legacy on day one of development.
-Instead, we recommend modern frameworks like React-Next.js or SvelteKit.
+Instead, we recommend using a more modern toolchain like React-Next.js, React-Vite or SvelteKit.
 
 # Getting Started with Create React App
 
