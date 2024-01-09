@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import "./App.scss";
-import { nomo } from "nomo-plugin-kit/dist/nomo_api";
+import { nomo } from "nomo-webon-kit";
 import { Card } from "./components/Card/Card";
 import { Spinner } from "./components/Spinner/Spinner";
 

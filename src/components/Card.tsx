@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import './Card.scss'
-import { nomo } from 'nomo-plugin-kit/dist/nomo_api'
+import { nomo } from 'nomo-webon-kit'
 
 interface CardProps {
   title: string,
