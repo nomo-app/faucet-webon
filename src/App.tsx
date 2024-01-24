@@ -1,44 +1,24 @@
-import React, { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import "./App.scss";
 import { nomo } from "nomo-webon-kit";
 import { Card } from "./components/Card/Card";
-import { Spinner } from "./components/Spinner/Spinner";
 
 function App() {
-  const [walletAddresses, setWalletAddresses] = useState("");
-  const [backendAvailable, setBackendAvailable] = useState(false);
-
-  useEffect(() => {
-    const fetchBackendStatus = async () => {
-      const response = await nomo.authHttp({
-        url: "https://faucet-plugin.zeniq.net/",
-        method: "GET",
-      });
-
-      if (response.statusCode === 202) {
-        setBackendAvailable(true);
-      }
-    };
-    fetchBackendStatus();
-  }, [backendAvailable]);
+  const [evmAddress, setEvmAddress] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchAddresses = async () => {
-      const addresses = await nomo.getWalletAddresses();
-      setWalletAddresses(addresses.walletAddresses["ETH"]);
+      const address = await nomo.getEvmAddress();
+      setEvmAddress(address);
     };
     fetchAddresses();
   }, []);
 
   return (
     <Fragment>
-      {backendAvailable ? (
-        <div className="card-container">
-          <Card walletAddress={walletAddresses} />
-        </div>
-      ) : (
-        <Spinner />
-      )}
+      <div className="card-container">
+        <Card evmAddress={evmAddress} />
+      </div>
     </Fragment>
   );
 }

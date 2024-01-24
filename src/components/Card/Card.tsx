@@ -3,51 +3,61 @@ import "./Card.scss";
 import { nomo } from "nomo-webon-kit";
 
 interface CardProps {
-  walletAddress: string;
+  evmAddress: string | null;
 }
 
-export function Card({ walletAddress }: CardProps) {
+export function Card({ evmAddress }: CardProps) {
   const [isLoading, setIsLoading] = useState(false);
-  const [responseStatus, setResponseStatus] = useState<"success" | "error" | null>(null);
+  const [responseStatus, setResponseStatus] = useState<
+    "success" | "error" | null
+  >(null);
   const [message, setMessage] = useState<string>("");
 
   useEffect(() => {
-    if (!walletAddress) {
+    if (!evmAddress) {
       return;
     }
     const fetchClaimStatus = async () => {
-      const response = await nomo.authHttp({
-        url: "https://faucet-plugin.zeniq.net/status",
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ address: walletAddress }),
-      });
+      const statusUrl = "https://faucet-plugin.zeniq.net/status";
+      try {
+        const response = await nomo.authHttp({
+          url: statusUrl,
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ address: evmAddress }),
+        });
 
-      if (response.statusCode === 400) {
+        if (response.statusCode === 400) {
+          setResponseStatus("error");
+          setMessage("Already claimed");
+        }
+      } catch (e) {
+        console.error(e);
         setResponseStatus("error");
-        setMessage("Already claimed");
+        setMessage("Failed to connect to " + statusUrl); // screenshot for admins
       }
     };
     fetchClaimStatus();
-  }, [walletAddress]);
+  }, [evmAddress]);
 
   const handleClick = async () => {
-    setIsLoading(true);
-
-    if (!walletAddress) {
+    if (!evmAddress) {
       return;
     }
 
+    setIsLoading(true);
+
+    const claimUrl = "https://faucet-plugin.zeniq.net/claim";
     try {
       const response = await nomo.authHttp({
-        url: "https://faucet-plugin.zeniq.net/claim",
+        url: claimUrl,
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ address: walletAddress }),
+        body: JSON.stringify({ address: evmAddress }),
       });
 
       if (response.statusCode === 200) {
@@ -57,17 +67,16 @@ export function Card({ walletAddress }: CardProps) {
         setMessage("Already claimed");
       } else if (response.statusCode === 410) {
         console.log("ETH address missing!");
-      } else if (response.statusCode === 500) {
-        setResponseStatus("error");
-        setMessage("Internal server error");
       } else {
-        setMessage("Unknown error occured");
+        setResponseStatus("error");
+        setMessage("Got statusCode " + response.statusCode + " from " + claimUrl);
       }
 
-      setIsLoading(false);
     } catch (error) {
-      console.log("Error during accessing the faucet");
-      console.log(error);
+      console.error(error);
+      setMessage("Failed to connect to " + claimUrl);
+      setResponseStatus("error");
+    } finally {
       setIsLoading(false);
     }
   };
@@ -88,11 +97,19 @@ export function Card({ walletAddress }: CardProps) {
       </div>
       <div
         className={`card-footer ${
-          responseStatus === "success" ? "success" : responseStatus === "error" ? "error" : ""
+          responseStatus === "success"
+            ? "success"
+            : responseStatus === "error"
+            ? "error"
+            : ""
         }`}
       >
-        {responseStatus === "success" && <p className="success-message">Success!</p>}
-        {responseStatus === "error" && <p className="error-message">{message}</p>}
+        {responseStatus === "success" && (
+          <p className="success-message">Success!</p>
+        )}
+        {responseStatus === "error" && (
+          <p className="error-message">{message}</p>
+        )}
       </div>
     </div>
   );
