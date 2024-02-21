@@ -11,14 +11,14 @@
   "scripts": {
     "dev": "vite --host --port 3000",
     "build": "tsc && vite build && mv dist out && nomo-webon-cli build out",
-    "deploy": "nomo-webon-cli deploy nomo.tar.gz production",
+    "deploy": "nomo-webon-cli bumpVersion public/nomo_manifest.json && rm -rf out && npm run build && nomo-webon-cli deploy nomo.tar.gz production",
     "preview": "vite preview out"
   },
   "devDependencies": {
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
     "@vitejs/plugin-react": "^4.2.1",
-    "nomo-webon-cli": "^0.1.7",
+    "nomo-webon-cli": "^0.1.9",
     "sass": "^1.70.0",
     "typescript": "^5.2.2",
     "vite": "^5.0.8"
