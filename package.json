@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "nomo-webon-kit": "^0.1.23",
+    "nomo-webon-kit": "^0.1.25",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
