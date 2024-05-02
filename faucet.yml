@@ -1,0 +1,15 @@
+services:
+  faucet:
+    image: registry.vougee.space/webons/faucet:latest
+    container_name: faucet
+    environment:
+      - VIRTUAL_PORT=80
+      - VIRTUAL_HOST=faucet.nomo.lol
+      - LETSENCRYPT_HOST=faucet.nomo.lol
+    networks:
+      - proxy
+    restart: unless-stopped
+
+networks:
+  proxy:
+    external: true
