@@ -2,7 +2,7 @@
   "nomo_manifest_version": "1.0.0",
   "webon_id": "com.nomo.faucet",
   "webon_name": "Faucet",
-  "webon_version": "1.0.8",
+  "webon_version": "1.0.10",
   "dependencies": [],
   "permissions": [
     "nomo.permission.CAMERA",
